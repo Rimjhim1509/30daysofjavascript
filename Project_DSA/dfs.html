@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undo Redo Demo</title>
+    <style>
+        body{
+            font-family: sans-serif;
+        }
+        input {
+            width:300px;padding: 8px; font-size: 16px
+                    }
+        button{margin:5px; padding: 8px; font-size:16px;}     
+               
+    </style>
+</head>
+<body>
+      <h2>📝 Mini Editor with Undo / Redo</h2>
+      <input type="text" id="editor" placeholder="Type something..."/>
+      <br>
+      <button onclick="undo()">Undo</button>
+      <button onclick="redo()">Redo</button>
+      <script>
+        const input = document.getElementById('editor');
+        const undoStack =[];
+        const redoStack = [];
+        //to track every changes 
+        input.addEventListener('input',(e)=>{
+            undoStack.push(e.target.value);
+            redoStack.length = 0;
+        });
+        function undo(){
+            if(undoStack.length<=1){
+                input.value="";
+                return;
+            }
+            const last = undoStack.pop();
+            redoStack.push(last);
+            input.value = undoStack[undoStack.length-1];
+
+        }
+        function redo(){
+            if(redoStack.length==0) return;
+              
+                const restored = redoStack.pop();
+                input.value =restored;
+                undoStack.push(restored);
+
+            }
+        
+
+      </script>
+
+</body>
+</html>
